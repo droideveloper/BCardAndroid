@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">BCard</string>
+  <string name="action_reset_string">Reset</string>
+</resources>

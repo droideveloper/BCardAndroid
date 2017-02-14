@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * BCard Copyright (C) 2017 Fatih.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:bindings="http://schemas.android.com/apk/res-auto"
+  xmlns:support="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <variable name="viewModel"
+      type="org.fs.bcard.viewmodels.MainActivityViewModel" />
+  </data>
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+      style="@style/ThemeOverlay.AppCompat.Light"
+      android:minHeight="?attr/actionBarSize"
+      android:background="@android:color/transparent"
+      bindings:navigationCommand="@{viewModel.exitNavigation}"
+      bindings:navigationIconCompat="@{@drawable/ic_close}"
+      bindings:toolbarMenu="@{viewModel.menuResource}"
+      bindings:toolbarMenuCallback="@{viewModel.menuCallback}"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+    <LinearLayout
+      android:layout_marginTop="?attr/actionBarSize"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <FrameLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:padding="25dp"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+          android:layout_width="wrap_content"
+          android:layout_gravity="center"
+          bindings:animator="@{viewModel.frontAnimator}"
+          bindings:interpolator="@{viewModel.sharedInterpolator}"
+          bindings:animatorListener="@{viewModel.displayState ? viewModel.animatorListener : null}"
+          bindings:elevationCompat="@={viewModel.frontElevation}"
+          support:cardCornerRadius="12dp"
+          android:layout_height="wrap_content">
+
+          <ImageView
+            bindings:imageUrl="@{viewModel.frontUri}"
+            bindings:requestBuilder="@{viewModel.requestBuilder}"
+            android:scaleType="fitXY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+          android:layout_width="wrap_content"
+          android:layout_gravity="center"
+          bindings:animator="@{viewModel.backAnimator}"
+          bindings:interpolator="@{viewModel.sharedInterpolator}"
+          bindings:elevationCompat="@={viewModel.backElevation}"
+          bindings:animatorListener="@{viewModel.displayState ? null : viewModel.animatorListener}"
+          support:cardCornerRadius="12dp"
+          android:layout_height="wrap_content">
+
+          <ImageView
+            bindings:imageUrl="@{viewModel.backUri}"
+            bindings:requestBuilder="@{viewModel.requestBuilder}"
+            android:scaleType="fitXY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+      </FrameLayout>
+
+      <org.fs.bcard.widgets.ViewPager
+        bindings:onPageSelected="@{viewModel.onPageSelected}"
+        bindings:selectedPage="@{viewModel.selectedPage}"
+        bindings:itemSource="@{viewModel.itemSource}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <ProgressBar
+      android:layout_gravity="bottom"
+      android:layout_marginBottom="-7dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:progress="@{viewModel.progress}"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+  </FrameLayout>
+</layout>
